@@ -1,0 +1,21 @@
+{
+  "name": "poti-showcase-builder",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n \"WEB,API,WRK\" -c \"cyan,magenta,yellow\" \"npm run dev:web\" \"npm run dev:api\" \"npm run dev:worker\"",
+    "dev:web": "npm --prefix apps/web run dev",
+    "dev:api": "npx tsx apps/api/src/server.ts",
+    "dev:worker": "npx tsx apps/worker/src/index.ts",
+    "test": "node --test packages/core/tests/contracts.test.js packages/core/tests/url-policy.test.js packages/core/tests/naming.test.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "tsx": "^4.21.0"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@poti/worker",
+  "version": "1.0.0",
+  "description": "Background Queue Orchestrator Daemon",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "npx tsc"
+  },
+  "type": "module",
+  "author": "Agencia Poti",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@poti/capture": "file:../../packages/capture",
+    "@poti/crawler": "file:../../packages/crawler",
+    "@poti/db": "file:../../packages/db",
+    "@poti/export": "^1.0.0",
+    "@poti/mockup": "file:../../packages/mockup",
+    "@poti/cloud": "file:../../packages/cloud",
+    "dotenv": "^16.4.5"
+  }
+}

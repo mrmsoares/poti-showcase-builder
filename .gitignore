@@ -1,0 +1,19 @@
+node_modules/
+.DS_Store
+dist/
+coverage/
+*.log
+.env
+.env.*
+output/
+!output/.gitkeep
+
+# Security & Credentials
+service-account.json
+
+# Database
+data/
+
+# Next.js / Build
+.next/
+apps/web/.next/

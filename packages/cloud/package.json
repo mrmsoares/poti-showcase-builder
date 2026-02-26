@@ -1,0 +1,23 @@
+{
+    "name": "@poti/cloud",
+    "version": "1.0.0",
+    "description": "Google Drive Cloud Storage Integration for Poti Showcase Builder",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "type": "module",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "googleapis": "^144.0.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.0"
+    }
+}
