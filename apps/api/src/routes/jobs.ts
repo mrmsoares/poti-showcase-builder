@@ -191,20 +191,44 @@ export async function jobRoutes(fastify: FastifyInstance) {
 
                 const views = fs.readdirSync(outputDir).filter(f => fs.statSync(path.join(outputDir, f)).isDirectory());
 
+                const listFilesRecursive = (absoluteRoot: string, publicPrefix: string): string[] => {
+                    if (!fs.existsSync(absoluteRoot)) return [];
+
+                    const entries = fs.readdirSync(absoluteRoot, { withFileTypes: true });
+                    const files: string[] = [];
+
+                    for (const entry of entries) {
+                        const absoluteEntry = path.join(absoluteRoot, entry.name);
+                        if (entry.isDirectory()) {
+                            files.push(...listFilesRecursive(absoluteEntry, `${publicPrefix}/${entry.name}`));
+                        } else {
+                            files.push(`${publicPrefix}/${entry.name}`);
+                        }
+                    }
+
+                    return files;
+                };
+
                 const assets = views.map(view => {
                     const viewPath = path.join(outputDir, view);
 
-                    const getFiles = (subpath: string) => {
-                        const full = path.join(viewPath, subpath);
-                        if (!fs.existsSync(full)) return [];
-                        return fs.readdirSync(full).filter(f => fs.statSync(path.join(full, f)).isFile());
-                    };
+                    const imagesMockups = listFilesRecursive(
+                        path.join(viewPath, 'images', 'mockups'),
+                        `/assets/${id}/${view}/images/mockups`
+                    );
+                    const imagesRaw = listFilesRecursive(
+                        path.join(viewPath, 'images', 'raw'),
+                        `/assets/${id}/${view}/images/raw`
+                    );
 
-                    const imagesMockups = getFiles('images/mockups').map(f => `/assets/${id}/${view}/images/mockups/${f}`);
-                    const imagesRaw = getFiles('images/raw').map(f => `/assets/${id}/${view}/images/raw/${f}`);
-
-                    const videosMockups = getFiles('videos/mockups').map(f => `/assets/${id}/${view}/videos/mockups/${f}`);
-                    const videosRaw = getFiles('videos/raw').map(f => `/assets/${id}/${view}/videos/raw/${f}`);
+                    const videosMockups = listFilesRecursive(
+                        path.join(viewPath, 'videos', 'mockups'),
+                        `/assets/${id}/${view}/videos/mockups`
+                    );
+                    const videosRaw = listFilesRecursive(
+                        path.join(viewPath, 'videos', 'raw'),
+                        `/assets/${id}/${view}/videos/raw`
+                    );
 
                     return {
                         view,
